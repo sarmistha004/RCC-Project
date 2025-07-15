@@ -57,6 +57,12 @@ fig_deaths = px.line(filtered_df, x='date', y='new_deaths', title="Daily New Dea
 
 st.plotly_chart(fig_cases, use_container_width=True)
 st.plotly_chart(fig_deaths, use_container_width=True)
+if 'people_vaccinated' in filtered_df.columns:
+    st.subheader("💉 Vaccination Trends")
+    fig_vax = px.line(filtered_df, x='date', y='people_vaccinated',
+                      title="People Vaccinated Over Time",
+                      labels={"people_vaccinated": "Vaccinated"})
+    st.plotly_chart(fig_vax, use_container_width=True)
 
 # Forecasting
 st.subheader("📅 Forecasting with Prophet")
