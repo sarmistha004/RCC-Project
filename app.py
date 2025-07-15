@@ -11,6 +11,17 @@ from reportlab.lib.styles import getSampleStyleSheet
 from io import BytesIO
 
 st.set_page_config(page_title="COVID-19 Time Series", layout="wide")
+st.markdown("""
+    <style>
+        body {
+            background: linear-gradient(to right, #ffe6f0, #e6ccff);
+        }
+        header, footer {
+            visibility: hidden;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
 
 st.title("🦠 COVID-19 Time Series Analysis & Forecasting")
 
