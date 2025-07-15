@@ -1,5 +1,6 @@
-streamlit
-pandas
-plotly
-prophet
-reportlab
+streamlit>=1.25.0
+pandas>=1.5.0
+plotly>=5.9.0
+prophet>=1.1
+reportlab>=3.6.12
+openai>=1.12.0
