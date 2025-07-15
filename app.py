@@ -94,6 +94,20 @@ else:
                           labels={"new_cases": "New Cases", "location": "Country"})
     st.plotly_chart(fig_compare, use_container_width=True)
 
+# 📊 Show Latest Summary Table
+st.subheader("📊 Latest Summary Table")
+
+latest_date = filtered_df['date'].max()
+latest_data = df[(df['location'] == selected_country) & (df['date'] == latest_date)]
+
+if not latest_data.empty:
+    display_cols = ['total_cases', 'new_cases', 'total_deaths', 'new_deaths', 'people_vaccinated']
+    display_data = latest_data[display_cols].transpose().reset_index()
+    display_data.columns = ['Metric', 'Value']
+    st.dataframe(display_data)
+else:
+    st.warning("No summary data available for the selected country and date.")
+
 
 # Forecasting
 st.subheader("📅 Forecasting with Prophet")
