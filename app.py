@@ -175,6 +175,30 @@ if st.button("Download Forecast PDF"):
         mime="application/pdf"
     )
 
+# 🧠 AI Chat Assistant
+st.subheader("🧠 Ask the AI Assistant (Beta)")
+
+user_question = st.text_input("Ask anything about COVID-19 data, trends, or predictions:")
+
+if user_question:
+    import openai
+    openai.api_key = os.getenv("OPENAI_API_KEY") or st.secrets.get("OPENAI_API_KEY")
+    prompt = f"""You are a helpful assistant analyzing COVID-19 time series data. 
+    The user asked: "{user_question}". 
+    Provide an informative, data-backed answer within 150 words."""
+
+    with st.spinner("Thinking..."):
+        try:
+            response = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.7,
+                max_tokens=300,
+            )
+            st.success(response.choices[0].message.content.strip())
+        except Exception as e:
+            st.error("Error getting response from AI assistant.")
+
 # Footer
 st.markdown("---")
 st.markdown("🔬 Created by **Sarmistha Sen** | Data Source: [Our World In Data](https://ourworldindata.org/coronavirus)")
