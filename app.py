@@ -196,8 +196,9 @@ if user_question:
                 max_tokens=300,
             )
             st.success(response.choices[0].message.content.strip())
-        except Exception as e:
-            st.error("Error getting response from AI assistant.")
+       except Exception as e:
+            st.error(f"Error from AI assistant: {e}")
+
 
 # Footer
 st.markdown("---")
