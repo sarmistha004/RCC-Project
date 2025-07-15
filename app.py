@@ -189,15 +189,22 @@ if user_question:
 
     with st.spinner("Thinking..."):
         try:
-            response = openai.ChatCompletion.create(
+            from openai import OpenAI
+
+            client = OpenAI(api_key=openai.api_key)
+
+            response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.7,
                 max_tokens=300,
             )
+
             st.success(response.choices[0].message.content.strip())
+
         except Exception as e:
             st.error(f"Error from AI assistant: {e}")
+
 
 
 # Footer
