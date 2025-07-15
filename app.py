@@ -178,16 +178,21 @@ if st.button("Download Forecast PDF"):
 # 🧠 AI Chat Assistant
 st.subheader("🧠 Ask the AI Assistant")
 
-user_question = st.text_area("Ask anything about COVID-19 data, trends, or predictions:")
+# Sample questions
+sample_questions = [
+    "",
+    "What was the peak number of new cases in the US?",
+    "Predict the trend of COVID-19 cases in Japan for next month.",
+    "How did vaccinations impact death rates in Italy?",
+    "Which country had the lowest number of cases in 2022?",
+    "Compare case trends between India and Brazil."
+]
 
-# 💡 Sample questions to guide the user
-with st.expander("💡 Sample Questions"):
-    st.markdown("💡 **Sample questions you can ask:**")
-    st.markdown("- What was the peak number of new cases in the US?")
-    st.markdown("- Predict the trend of COVID-19 cases in Japan for next month.")
-    st.markdown("- How did vaccinations impact death rates in Italy?")
-    st.markdown("- Which country had the lowest number of cases in 2022?")
-    st.markdown("- Compare case trends between India and Brazil.")
+# Dropdown to select a sample question
+selected_sample = st.selectbox("💡 Choose a sample question (optional):", sample_questions)
+
+# If a sample is selected, auto-fill it into the text area (but allow editing)
+user_question = st.text_area("Ask anything about COVID-19 data, trends, or predictions:", value=selected_sample)
 
 if st.button("Search"):
     if user_question.strip() != "":
