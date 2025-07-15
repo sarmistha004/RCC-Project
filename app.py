@@ -180,6 +180,14 @@ st.subheader("🧠 Ask the AI Assistant")
 
 user_question = st.text_area("Ask anything about COVID-19 data, trends, or predictions:")
 
+# 💡 Sample questions to guide the user
+st.markdown("💡 **Sample questions you can ask:**")
+st.markdown("- What was the peak number of new cases in the US?")
+st.markdown("- Predict the trend of COVID-19 cases in Japan for next month.")
+st.markdown("- How did vaccinations impact death rates in Italy?")
+st.markdown("- Which country had the lowest number of cases in 2022?")
+st.markdown("- Compare case trends between India and Brazil.")
+
 if st.button("Search"):
     if user_question.strip() != "":
         import openai
