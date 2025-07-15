@@ -4,6 +4,11 @@ import plotly.express as px
 from prophet import Prophet
 from prophet.plot import plot_plotly
 from datetime import datetime
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
+from io import BytesIO
 
 st.set_page_config(page_title="COVID-19 Time Series", layout="wide")
 
@@ -55,11 +60,58 @@ if not prophet_data.empty:
     fig_forecast = plot_plotly(m, forecast)
     st.plotly_chart(fig_forecast, use_container_width=True)
 
+    st.markdown("### 📥 Download Forecast")
     if st.button("Download Forecast Data"):
         csv = forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].to_csv(index=False).encode()
         st.download_button("Download Forecast CSV", csv, "forecast.csv", "text/csv")
 else:
     st.warning("Not enough data for forecasting.")
+
+if st.button("Download Forecast PDF"):
+    # Create a PDF buffer
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=letter)
+    elements = []
+    styles = getSampleStyleSheet()
+
+    # Title
+    elements.append(Paragraph("COVID-19 Forecast (Next 30 Days)", styles['Title']))
+    elements.append(Paragraph(f"Country: {selected_country}", styles['Normal']))
+    elements.append(Paragraph(f"Generated on: {datetime.now().strftime('%Y-%m-%d')}", styles['Normal']))
+    elements.append(Paragraph(" ", styles['Normal']))
+
+    # Forecast Table Data
+    table_data = [["Date", "Predicted Cases", "Lower Bound", "Upper Bound"]]
+    for i in range(len(forecast)):
+        row = forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].iloc[i]
+        table_data.append([
+            row['ds'].strftime('%Y-%m-%d'),
+            f"{row['yhat']:.2f}",
+            f"{row['yhat_lower']:.2f}",
+            f"{row['yhat_upper']:.2f}"
+        ])
+
+    table = Table(table_data, repeatRows=1)
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1f77b4')),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+        ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
+        ('FONTSIZE', (0, 0), (-1, -1), 8),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+        ('ALIGN', (1, 1), (-1, -1), 'CENTER'),
+    ]))
+    elements.append(table)
+
+    # Build PDF
+    doc.build(elements)
+    buffer.seek(0)
+
+    st.download_button(
+        label="Download Forecast PDF",
+        data=buffer,
+        file_name="covid_forecast.pdf",
+        mime="application/pdf"
+    )
 
 # Footer
 st.markdown("---")
