@@ -37,6 +37,9 @@ def load_data():
 
 df = load_data()
 
+view_options = ["Overview","Vaccination Trends","Latest Summary Table","Forecasting with Prophet","Compare Two Countries","Ask the AI Assistant"]
+view = st.selectbox("🔍 Select a Feature", view_options)
+
 # Sidebar filters
 countries = df['location'].unique()
 selected_country = st.sidebar.selectbox("Select Country", sorted(countries))
