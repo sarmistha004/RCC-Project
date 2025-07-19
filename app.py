@@ -71,28 +71,6 @@ if 'people_vaccinated' in filtered_df.columns:
     else:
         st.info("No vaccination data available for this country in the selected date range.")
 
-# 🌍 Compare Two Countries
-st.subheader("🌍 Compare Two Countries")
-
-col1, col2 = st.columns(2)
-with col1:
-    country1 = st.selectbox("Country 1", sorted(df['location'].unique()), key='country1')
-with col2:
-    country2 = st.selectbox("Country 2", sorted(df['location'].unique()), key='country2')
-
-compare_df = df[(df['location'].isin([country1, country2])) & 
-                (df['date'] >= pd.to_datetime(start_date)) & 
-                (df['date'] <= pd.to_datetime(end_date))]
-
-compare_df = compare_df[['date', 'location', 'new_cases']].dropna(subset=['new_cases'])
-
-if compare_df['location'].nunique() < 2:
-    st.warning("One of the selected countries has insufficient data for comparison.")
-else:
-    fig_compare = px.line(compare_df, x='date', y='new_cases', color='location',
-                          title="New Cases Comparison Between Two Countries",
-                          labels={"new_cases": "New Cases", "location": "Country"})
-    st.plotly_chart(fig_compare, use_container_width=True)
 
 # 📊 Show Latest Summary Table
 st.subheader("📊 Latest Summary Table")
@@ -174,6 +152,29 @@ if st.button("Download Forecast PDF"):
         file_name="covid_forecast.pdf",
         mime="application/pdf"
     )
+
+# 🌍 Compare Two Countries
+st.subheader("🌍 Compare Two Countries")
+
+col1, col2 = st.columns(2)
+with col1:
+    country1 = st.selectbox("Country 1", sorted(df['location'].unique()), key='country1')
+with col2:
+    country2 = st.selectbox("Country 2", sorted(df['location'].unique()), key='country2')
+
+compare_df = df[(df['location'].isin([country1, country2])) & 
+                (df['date'] >= pd.to_datetime(start_date)) & 
+                (df['date'] <= pd.to_datetime(end_date))]
+
+compare_df = compare_df[['date', 'location', 'new_cases']].dropna(subset=['new_cases'])
+
+if compare_df['location'].nunique() < 2:
+    st.warning("One of the selected countries has insufficient data for comparison.")
+else:
+    fig_compare = px.line(compare_df, x='date', y='new_cases', color='location',
+                          title="New Cases Comparison Between Two Countries",
+                          labels={"new_cases": "New Cases", "location": "Country"})
+    st.plotly_chart(fig_compare, use_container_width=True)
 
 # 🧠 AI Chat Assistant
 st.subheader("🧠 Ask the AI Assistant")
