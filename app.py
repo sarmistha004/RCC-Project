@@ -78,7 +78,7 @@ elif view == "Vaccination Trends":
                               labels={"people_vaccinated": "Vaccinated"})
             st.plotly_chart(fig_vax, use_container_width=True)
         else:
-            st.info("No vaccination data available for this country in the selected date range
+            st.info("No vaccination data available for this country in the selected date range")
             
 
 # 📊 Show Latest Summary Table
