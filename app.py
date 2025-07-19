@@ -42,30 +42,33 @@ def load_data():
 
 df = load_data()
 
-view_options = ["Overview","Vaccination Trends","Latest Summary Table","Forecasting","Compare Two Countries","Ask the AI Assistant"]
+view_options = ["Overview", "Vaccination Trends", "Latest Summary Table", "Forecasting", "Compare Two Countries", "Ask the AI Assistant"]
 
 # Title
 st.markdown("### 🔍 **Select a Feature**")
 
-# Remove vertical gaps, add style directly to selectbox
+# Apply larger styling to selectboxes
+st.markdown(
+    """
+    <style>
+    div[data-baseweb="select"] {
+        font-size: 18px !important;
+        padding: 12px !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# Feature selector
 feature = st.selectbox(
     "",
     ["Overview", "Vaccination Trends", "Infection Forecast", "Precautions", "Resources"],
     key="feature_selector",
 )
 
-# Optional: Make selectbox larger with custom CSS
-st.markdown(
-    """
-    <style>
-    div[data-baseweb="select"] {
-        font-size: 18px !important;
-        padding: 8px !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# View selector (This must come BEFORE the logic that uses 'view')
+view = st.selectbox("", view_options)
 
 countries = df['location'].unique()
 
