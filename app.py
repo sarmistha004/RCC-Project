@@ -26,7 +26,12 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-st.title("🦠 COVID-19 Time Series Analysis & Forecasting")
+st.markdown(
+    "<h1 style='text-align: center; color: #2E86C1;'>🦠 COVIDlytics</h1>"
+    "<h4 style='text-align: center; color: gray;'>Visualize. Analyze. Forecast.</h4>"
+    "<h4 style='text-align: center; color: gray;'>Your AI-Powered COVID Insights Hub.</h4>",
+    unsafe_allow_html=True
+)
 
 # Load data
 @st.cache_data
