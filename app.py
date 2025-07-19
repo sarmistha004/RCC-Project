@@ -42,6 +42,9 @@ def load_data():
 
 df = load_data()
 
+view_options = ["Overview","Vaccination Trends","Latest Summary Table","Forecasting","Compare Two Countries","Ask the AI Assistant"]
+view = st.selectbox("🔍 Select a Feature", view_options)
+
 countries = df['location'].unique()
 
 # Use expander instead of sidebar
@@ -56,9 +59,6 @@ filtered_df = country_df[
     (country_df['date'] >= pd.to_datetime(start_date)) &
     (country_df['date'] <= pd.to_datetime(end_date))
 ]
-
-view_options = ["Overview","Vaccination Trends","Latest Summary Table","Forecasting","Compare Two Countries","Ask the AI Assistant"]
-view = st.selectbox("🔍 Select a Feature", view_options)
 
 
 # Overview
