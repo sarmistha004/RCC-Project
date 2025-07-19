@@ -50,19 +50,22 @@ end_date = st.sidebar.date_input("End Date", datetime.now())
 country_df = df[df['location'] == selected_country]
 filtered_df = country_df[(country_df['date'] >= pd.to_datetime(start_date)) & (country_df['date'] <= pd.to_datetime(end_date))]
 
-st.subheader(f"📊 COVID-19 Data for {selected_country}")
-col1, col2 = st.columns(2)
-with col1:
-    st.metric("Total Cases", int(filtered_df['total_cases'].max() or 0))
-with col2:
-    st.metric("Total Deaths", int(filtered_df['total_deaths'].max() or 0))
+if view == "Overview":
+    st.subheader(f"📊 COVID-19 Data for {selected_country}")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.metric("Total Cases", int(filtered_df['total_cases'].max() or 0))
+    with col2:
+        st.metric("Total Deaths", int(filtered_df['total_deaths'].max() or 0))
 
-# Time series plots
-fig_cases = px.line(filtered_df, x='date', y='new_cases', title="Daily New Cases", labels={"new_cases": "New Cases"})
-fig_deaths = px.line(filtered_df, x='date', y='new_deaths', title="Daily New Deaths", labels={"new_deaths": "New Deaths"})
+    # Time series plots
+    fig_cases = px.line(filtered_df, x='date', y='new_cases', title="Daily New Cases", labels={"new_cases": "New Cases"})
+    fig_deaths = px.line(filtered_df, x='date', y='new_deaths', title="Daily New Deaths", labels={"new_deaths": "New Deaths"})
 
-st.plotly_chart(fig_cases, use_container_width=True)
-st.plotly_chart(fig_deaths, use_container_width=True)
+    st.plotly_chart(fig_cases, use_container_width=True)
+    st.plotly_chart(fig_deaths, use_container_width=True)
+
+
 if 'people_vaccinated' in filtered_df.columns:
     vax_data = filtered_df[['date', 'people_vaccinated']].dropna()
     if not vax_data.empty:
