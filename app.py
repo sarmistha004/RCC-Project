@@ -52,7 +52,7 @@ view = st.selectbox("", view_options)
 countries = df['location'].unique()
 
 # Use expander instead of sidebar
-with st.expander("🔽 Filter Options", expanded=True):
+with st.expander("🔽 Filter Options", expanded=False):
     selected_country = st.selectbox("Select Country", sorted(countries))
     start_date = st.date_input("Start Date", datetime(2020, 1, 1))
     end_date = st.date_input("End Date", datetime.now())
