@@ -37,15 +37,20 @@ def load_data():
 
 df = load_data()
 
-# Sidebar filters
 countries = df['location'].unique()
-selected_country = st.sidebar.selectbox("Select Country", sorted(countries))
-start_date = st.sidebar.date_input("Start Date", datetime(2020, 1, 1))
-end_date = st.sidebar.date_input("End Date", datetime.now())
+
+# Use expander instead of sidebar
+with st.expander("🔽 Filter Options", expanded=True):
+    selected_country = st.selectbox("Select Country", sorted(countries))
+    start_date = st.date_input("Start Date", datetime(2020, 1, 1))
+    end_date = st.date_input("End Date", datetime.now())
 
 # Filter data
 country_df = df[df['location'] == selected_country]
-filtered_df = country_df[(country_df['date'] >= pd.to_datetime(start_date)) & (country_df['date'] <= pd.to_datetime(end_date))]
+filtered_df = country_df[
+    (country_df['date'] >= pd.to_datetime(start_date)) &
+    (country_df['date'] <= pd.to_datetime(end_date))
+]
 
 view_options = ["Overview","Vaccination Trends","Latest Summary Table","Forecasting","Compare Two Countries","Ask the AI Assistant"]
 view = st.selectbox("🔍 Select a Feature", view_options)
