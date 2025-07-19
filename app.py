@@ -43,10 +43,22 @@ def load_data():
 df = load_data()
 
 view_options = ["Overview","Vaccination Trends","Latest Summary Table","Forecasting","Compare Two Countries","Ask the AI Assistant"]
-st.markdown(
-    "<label style='font-size: 22px; font-weight: bold;'>🔍 Select a Feature</label>",
-    unsafe_allow_html=True
-)
+# Custom CSS to increase selectbox size
+st.markdown("""
+    <style>
+    .big-font {
+        font-size:22px !important;
+        font-weight: bold;
+    }
+    div[data-baseweb="select"] > div {
+        font-size: 20px !important;
+        padding: 10px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Large label
+st.markdown('<label class="big-font">🔍 Select a Feature</label>', unsafe_allow_html=True)
 view = st.selectbox("", view_options)
 
 countries = df['location'].unique()
