@@ -40,18 +40,24 @@ df = load_data()
 view_options = ["Overview","Vaccination Trends","Latest Summary Table","Forecasting","Compare Two Countries","Ask the AI Assistant"]
 view = st.selectbox("🔍 Select a Feature", view_options)
 
-# Sidebar filters
-countries = df['location'].unique()
-selected_country = st.sidebar.selectbox("Select Country", sorted(countries))
-start_date = st.sidebar.date_input("Start Date", datetime(2020, 1, 1))
-end_date = st.sidebar.date_input("End Date", datetime.now())
-
-# Filter data
-country_df = df[df['location'] == selected_country]
-filtered_df = country_df[(country_df['date'] >= pd.to_datetime(start_date)) & (country_df['date'] <= pd.to_datetime(end_date))]
 
 # Overview
 if view == "Overview":
+    # Dropdown for country selection
+    countries = df['location'].unique()
+    selected_country = st.selectbox("🌍 Select a Country", sorted(countries))
+
+    # Date range inputs
+    start_date = st.date_input("📅 Start Date", datetime(2020, 1, 1))
+    end_date = st.date_input("📅 End Date", datetime.now())
+
+    # Filter data based on selections
+    country_df = df[df['location'] == selected_country]
+    filtered_df = country_df[
+        (country_df['date'] >= pd.to_datetime(start_date)) &
+        (country_df['date'] <= pd.to_datetime(end_date))
+    ]
+
     st.subheader(f"📊 COVID-19 Data for {selected_country}")
     col1, col2 = st.columns(2)
     with col1:
