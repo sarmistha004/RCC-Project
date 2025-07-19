@@ -43,8 +43,10 @@ def load_data():
 df = load_data()
 
 view_options = ["Overview","Vaccination Trends","Latest Summary Table","Forecasting","Compare Two Countries","Ask the AI Assistant"]
-# Large label
-st.markdown('<label class="big-font">🔍 Select a Feature</label>', unsafe_allow_html=True)
+st.markdown(
+    "<label style='font-size: 22px; font-weight: bold;'>🔍 Select a Feature</label>",
+    unsafe_allow_html=True
+)
 view = st.selectbox("", view_options)
 
 countries = df['location'].unique()
